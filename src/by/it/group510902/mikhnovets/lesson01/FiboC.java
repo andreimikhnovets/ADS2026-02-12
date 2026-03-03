@@ -24,7 +24,45 @@ public class FiboC {
     long fasterC(long n, int m) {
         //Интуитивно найти решение не всегда просто и
         //возможно потребуется дополнительный поиск информации
-        return -1L;
+        if (n <= 1) {
+            return n;
+        }
+
+        int pisanoPeriod = findPisanoPeriod(m);
+
+        long reducedN = n % pisanoPeriod;
+        if (reducedN <= 1) {
+            return reducedN;
+        }
+
+        long a = 0;
+        long b = 1;
+        long result = 0;
+
+        for (long i = 2; i <= reducedN; i++) {
+            result = (a + b) % m;
+            a = b;
+            b = result;
+        }
+
+        return result;
+    }
+
+    private int findPisanoPeriod(int m) {
+        int a = 0;
+        int b = 1;
+        int c;
+        for (int i = 0; i < m * m; i++) {
+            c = (a + b) % m;
+            a = b;
+            b = c;
+            if (a == 0 && b == 1) {
+                return i + 1;
+            }
+        }
+
+        return m * m;
+        //return -1L;
     }
 
 
